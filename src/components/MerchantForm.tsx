@@ -73,7 +73,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       product: "",
       product_image_url : "",
       currency_option: "USD",
-      price: "",
+      price: 0,
       receive_wallet: "",
       payment_option: "USDT-Arbitrum 0.1",
       escrow_enabled: false,
