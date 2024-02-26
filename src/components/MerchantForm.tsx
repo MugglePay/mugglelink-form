@@ -62,7 +62,8 @@ const formSchema = z.object({
 const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   //@ts-ignore
   const [formId, setFormID] = useState(null);
-  const [URL, setURL] = useState('');
+  const [URL, setURL] = useState('')
+  const [theme, setTheme] = useState('#8C52FF');
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -86,13 +87,14 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
     //@ts-ignore
     values.price = parseInt(values.price);
     const product = await insertApi(values);
     console.log(product);
 
     setFormID(product.data.product_id);
-    const url = `https://pay.muggle.link/?pid=${product.data.product_id}`;
+    const url = `app.link?pid=${product.data.product_id}`;
     setURL(url);
     redirect(url);
 
@@ -106,10 +108,10 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-1 mx-2 md:mx-auto w-[70%] md:w-[70%]  ">
+    <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-20 mx-4 md:mx-auto w-[95%] md:w-[80%] my-20 ">
       <div className="flex justify-center items-center w-full">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
           <div className=" d-flex">
             <span style={{ color: "#8c52ff", fontSize: "25px", fontWeight: "bold" }}>Create your MuggleLink</span>
             </div>
@@ -473,7 +475,11 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                   </FormLabel>
                   <FormItem>
                     <Select
-                      onValueChange={field.onChange}
+                      onValueChange={(value)=> {
+                        field.onChange(value);
+                        setTheme(value)
+                        
+                      }}
                       defaultValue={field.value}
                     >
                       <SelectTrigger>
@@ -541,7 +547,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
             name={form.getValues("name")}
             currencyOption={form.getValues("currency_option")}
             price={form.getValues("price")}
-            theme={form.getValues('color_pallet')}
+            theme={theme}
           />
         </div>
       </div>
