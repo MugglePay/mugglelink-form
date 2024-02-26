@@ -40,7 +40,7 @@ const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   product: z.string().min(1, { message: "Product is required" }),
   product_image_url : z.optional(z.string()),
-  price: z.string().min(1, { message: "Price is required" }),
+  price: z.number().min(0.01, { message: "Price is required and should be greater than 0" }),
   receive_wallet: z.string().min(1, { message: "Wallet address is required" }),
   payment_option: z.enum([
     "USDT-Arbitrum 0.1",
