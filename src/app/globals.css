@@ -71,6 +71,13 @@
     background-color: #f5f5f5;
     cursor: not-allowed;
   } 
+  .muggle-link-text {
+    color: #8c52ff;
+    font-size: 10px;
+    font-weight: bold;
+  }
+  
+  
 }
  
 @layer base {
@@ -81,3 +88,4 @@
     @apply bg-background text-foreground;
   }
 }
+

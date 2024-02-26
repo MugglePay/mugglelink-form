@@ -106,10 +106,13 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-20 mx-4 md:mx-auto w-[95%] md:w-[80%] my-20 ">
+    <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-1 mx-2 md:mx-auto w-[70%] md:w-[70%]  ">
       <div className="flex justify-center items-center w-full">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+          <div className=" d-flex">
+            <span style={{ color: "#8c52ff", fontSize: "25px", fontWeight: "bold" }}>Create your MuggleLink</span>
+            </div>
             <FormField
               control={form.control}
               name="name"
@@ -521,15 +524,15 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
           </form>
         </Form>
       </div>
-      <div className="flex flex-col ">
-        <div className="mb-10">
-          <h1 className="my-2 font-semibold">Link</h1>
+      <div className="flex flex-col mb-8">
+        <div className="my-10">
+          <h1 className="my-5 font-semibold">Link</h1>
 
           <CopyComponent id={formId} />
         </div>
-        <div className="mb-10">
+        <div className="mb-8">
           <h1 className="my-2 font-semibold">QR Code</h1>
-          <QRCode value={URL} />
+          <QRCode value={URL} size={80}/>
           {/* <Image src={"/qrcode.jpeg"} width={50} height={50} alt="qrcode" /> */}
         </div>
         <div className="mb-10">

@@ -16,7 +16,7 @@ type previewCardProps = {
 const PreviewCard = ({ name, price, currencyOption , theme} : previewCardProps) => {
   console.log(theme)
   return (
-    <Card className="w-full md:w-[400px] rounded-3xl">
+    <Card className="w-full md:w-[330px] rounded-3xl">
               <CardHeader className="rounded-t-3xl text-white" style={{background : theme}}>
                 <CardTitle className="flex justify-between">
                   <h1 className="text-sm">{ name ? name : "Future AI Inc."}</h1>

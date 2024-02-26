@@ -50,7 +50,7 @@ const AnimatedText: React.FC = () => {
       )}
       {currentLogo === "X.com" && (
         <div className="flex justify-center items-center gap-2">
-          <h2 className="font-bold">X</h2>
+          <h2 className="font-bold">X.com</h2>
           <Image
             src="/x.png"
             width={50}

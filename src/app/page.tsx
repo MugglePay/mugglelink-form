@@ -124,12 +124,12 @@ async function postData(data : dataType) {
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-2 md:gap-10 mx-4 md:mx-auto w-[95%] md:w-[70%] my-32 sm:my-56 tracking-wide" suppressHydrationWarning>
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-2 md:gap-10 mx-4 md:mx-auto w-[95%] lg:w-[70%] my-32 sm:my-56 tracking-wide" suppressHydrationWarning>
         <div className="flex flex-col items-center justify-center sm:items-start sm:justify-start w-full text-white">
           <h1 className="text-4xl md:text-6xl mb-10 font-bold">MuggleLink</h1>
-          <div className="flex justify-center items-center gap-2 flex-row">
-            <h3 className="text-xl md:text-3xl">Accept crypto on</h3>
-            <AnimatedText />
+          <div className="flex justify-center items-center gap-2 flex-wrap sm:flex-row">
+            <h3 className="text-xl md:text-2xl text-align: center">Accept crypto on</h3>
+            <AnimatedText/>
           </div>
           <ul className="list-disc list-inside ml-4 md:ml-10 my-8 text-base md:text-xl">
           <li> Accept crypto on telegram and universal Social Platform.</li>
@@ -137,11 +137,11 @@ export default function Home() {
             <li>The future of social marketplace</li>
           </ul>
           <div className="flex items-center justify-center"> {/* Parent container */}
-        <a className="text-xl md:text-3xl" style={{ fontSize: "1.20rem", fontWeight: "normal" }}>
+        <a className="text-xl md:text-3xl" style={{ fontSize: "1rem", fontWeight: "normal", marginBottom: "15px"  }}>
         Stay tuned and be part of our journey from the very beginning!
         </a>
       </div>
-        <div className="flex flex-col gap-4 items-center justify-center ml-2 md:ml-10 mt-s4 md:mt-10 text-base md:text-xl font-semibold">
+        <div className="flex flex-col gap-1 items-center justify-center text-base font-semibold">
         <a href="https://forms.gle/S27vjTi9G2FM4KEa6" target="_blank" rel="noopener noreferrer" className="py-2 px-6 md:px-20 bg-white rounded-full font-semibold md:font-bold text-[#8c52ff] hover:bg-[#8c52ff] hover:text-white">
         Join the waiting list!
         </a>
@@ -151,7 +151,7 @@ export default function Home() {
     </div>
         </div>
         <div className="flex justify-center items-center w-full mt-6 px-4 sm:mt-0 sm:px-0">
-          <Card className="w-full md:w-[400px] rounded-3xl">
+          <Card className="w-full md:w-[350px] rounded-3xl">
             <CardHeader>
               <CardTitle className="flex justify-between">
                 <h1>AI Future Inc.</h1>
@@ -269,8 +269,8 @@ export default function Home() {
         <CardFooter></CardFooter>
       </Card>
 
-      <div className="flex items-center justify-center my-8">
-          <h3 className="text-base md:text-xl font-semibold">Powered by MuggleLink!</h3>
+      <div className="flex items-center justify-center my-8 text-white">
+          <h3 className="text-base md:text-xl font-semibold text-white">Powered by MuggleLink!</h3>
           <Link href="https://t.me/MuggleLink1" target="_blank" rel="noopener noreferrer">
             <Image
               src="/telegram.png"
