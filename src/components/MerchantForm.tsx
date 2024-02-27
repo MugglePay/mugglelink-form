@@ -546,7 +546,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
           <PreviewCard
             name={form.getValues("name")}
             currencyOption={form.getValues("currency_option")}
-            price={form.getValues("price")}
+            price={form.getValues("price").toString()}
             theme={theme}
           />
         </div>
