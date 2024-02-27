@@ -73,7 +73,8 @@ async function postData(data : dataType) {
           "primary": data.color_pallet ?? '#8C52FF', // Keeping original color
           "buttonText": "#FFFFFF" // Keeping original color
         }
-      }
+      },
+      "email" : data.email ?? ""
     },
     "fields": {
       "requires_name": data.require_full_name,
