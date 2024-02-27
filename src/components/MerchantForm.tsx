@@ -40,7 +40,7 @@ const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   product: z.string().min(1, { message: "Product is required" }),
   product_image_url : z.optional(z.string()),
-  price: z.number().min(0.01, { message: "Price is required and should be greater than 0" }),
+  price: z.string().min(1, { message: "Price is required" }),
   receive_wallet: z.string().min(1, { message: "Wallet address is required" }),
   payment_option: z.enum([
     "USDT-Arbitrum 0.1",
@@ -73,7 +73,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       product: "",
       product_image_url : "",
       currency_option: "USD",
-      price: 0,
+      price: "",
       receive_wallet: "",
       payment_option: "USDT-Arbitrum 0.1",
       escrow_enabled: false,
@@ -89,7 +89,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
     //@ts-ignore
-    values.price = parseInt(values.price);
+    values.price = parseFloat(values.price);
     const product = await insertApi(values);
     console.log(product);
 
@@ -218,7 +218,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                     </div>
                     <div className="basis-3/4">
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" {...field} step ={0.01}/>
                       </FormControl>
                     </div>
                   </div>
@@ -537,7 +537,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
           <CopyComponent id={formId} />
         </div>
         <div className="mb-8">
-          <h1 className="my-2 font-semibold">QR Code</h1>
+        <h1 className="my-2 font-semibold">QR Code</h1>
           <QRCode value={URL} size={80}/>
           {/* <Image src={"/qrcode.jpeg"} width={50} height={50} alt="qrcode" /> */}
         </div>
@@ -546,7 +546,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
           <PreviewCard
             name={form.getValues("name")}
             currencyOption={form.getValues("currency_option")}
-            price={form.getValues("price").toString()}
+            price={form.getValues("price")}
             theme={theme}
           />
         </div>
