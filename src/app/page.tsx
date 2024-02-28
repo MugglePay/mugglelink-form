@@ -87,25 +87,19 @@ async function postData(data : dataType) {
         "min": 1, "max": 12 // Keeping original values
       }
     },
-    "custom_fields": [
-      {
-        "field": "address",
-        "name": "Wallet Address",
-        "caption": 'Please Enter you Arbitrum Wallet Address'
-      }
-      // Additional custom fields can be added here as needed
-    ]
-  };
+  "custom_fields": []
+};
 
-  if(data.require_phone_no){
-    jsonData.custom_fields.push(
-      {
-        "field": "Phone Number",
-        "name": "Phone Number",
-        "caption": "Please Enter your phone number"
-      }
-    )
+if(data.require_phone_no){
+jsonData.custom_fields.push(
+  //@ts-ignore
+  {
+    "field": "Phone Number",
+    "name": "Phone Number",
+    "caption": "Please Enter your phone number"
   }
+)
+}
   // Default options are marked with *
   const response = await fetch('https://api.muggle.link/api/products', {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
