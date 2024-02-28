@@ -13,13 +13,13 @@ type previewCardProps = {
   theme: string | undefined
 }
 
-const PreviewCard = ({ name, price, currencyOption , theme} : previewCardProps) => {
+const PreviewCard = ({ name, price, currencyOption , theme, productName} : previewCardProps) => {
   console.log(theme)
   return (
     <Card className="w-full md:w-[330px] rounded-3xl">
               <CardHeader className="rounded-t-3xl text-white" style={{background : theme}}>
                 <CardTitle className="flex justify-between">
-                  <h1 className="text-sm">{ name ? name : "Future AI Inc."}</h1>
+                  <h1 className="text-sm">{ name ? name : "Company name"}</h1>
                   <FerrisWheel />
                 </CardTitle>
                 <CardDescription className="text-white">
@@ -31,9 +31,9 @@ const PreviewCard = ({ name, price, currencyOption , theme} : previewCardProps) 
                     {currencyOption === "USD" ? "$" : "£"}{price ? price : "160"}
                     </h1>
                   </div>
-                  <h3 className="font-semibold my-4 tracking-wider">Monthly Subscription Fee</h3>
+                  <h3 className="font-semibold my-4 tracking-wider">{productName ? productName : "Product Name"}</h3>
                   <div className="flex justify-between my-2">
-                    <span>{ name ? name : "Future AI Inc."}</span>
+                    <span>{ name ? name : "Company name"}</span>
                     <span>{currencyOption === "USD" ? "$" : "£"}{price ? price : "160"}</span>
                   </div>
                   <p className="border-b border-gray-400"></p>
