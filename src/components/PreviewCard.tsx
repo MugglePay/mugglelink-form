@@ -10,7 +10,8 @@ type previewCardProps = {
   name: string,
   price: string,
   currencyOption: "USD",
-  theme: string | undefined
+  theme: string | undefined,
+  productName: string
 }
 
 const PreviewCard = ({ name, price, currencyOption , theme, productName} : previewCardProps) => {
