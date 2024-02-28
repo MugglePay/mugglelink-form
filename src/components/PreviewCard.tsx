@@ -9,7 +9,7 @@ import { Input } from './ui/input'
 type previewCardProps = {
   name: string,
   price: string,
-  currencyOption: "USD" | "POUND",
+  currencyOption: "USD",
   theme: string | undefined
 }
 
