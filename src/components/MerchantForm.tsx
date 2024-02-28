@@ -41,14 +41,6 @@ const formSchema = z.object({
   product: z.string().min(1, { message: "Product is required" }),
   product_image_url : z.optional(z.string()),
   price: z.string().min(1, { message: "Price is required" }),
-  receive_wallet: z.string().min(1, { message: "Wallet address is required" }),
-  payment_option: z.enum([
-    "USDT-Arbitrum 0.1",
-    "USDT-Tron 1",
-    "USDT-Erc20 10",
-    "USDC-Erc20 10",
-    "ETH 10",
-  ]),
   currency_option: z.enum(["USD"]),
   escrow_enabled: z.optional(z.boolean()),
   require_full_name: z.optional(z.boolean()),
@@ -132,7 +124,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                       Add merchant or company name
                     </p>
                   </FormLabel>
-                  <Input placeholder="ex- John" type="text" {...field} />
+                  <Input placeholder="" type="text" {...field} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -250,66 +242,6 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="receive_wallet"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    <h2 className="text-lg font-semibold">Step 5</h2>
-                    <p className="text-sm font-normal text-gray-400">
-                      Select the crypto currency you would like to receive and
-                      enter the wallet address
-                    </p>
-                  </FormLabel>
-                  <div className="flex gap-6">
-                    <div className=" basis-1/4">
-                      <FormField
-                        control={form.control}
-                        name="payment_option"
-                        render={({ field }) => (
-                          <FormItem>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select Payment Options" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="USDT-Arbitrum 0.1">
-                                  USDT-Arbitrum 0.1 withdraw fee
-                                </SelectItem>
-                                <SelectItem value="USDT-Tron 1">
-                                  USDT-Tron 1 withdraw fee
-                                </SelectItem>
-                                <SelectItem value="USDT-Erc20 10">
-                                  USDT-Erc20 10 withdraw fee
-                                </SelectItem>
-                                <SelectItem value="USDC-Erc20 10">
-                                  USDC-Erc20 10 withdraw fee
-                                </SelectItem>
-                                <SelectItem value="ETH 10">
-                                  ETH 10 withdraw fee
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="basis-3/4">
-                      <FormControl>
-                        <Input type="text" {...field} />
-                      </FormControl>
-                    </div>
-                  </div>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <FormField
               control={form.control}
@@ -573,6 +505,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
             currencyOption={form.getValues("currency_option")}
             price={form.getValues("price")}
             theme={theme}
+            productName={form.getValues('product')}
           />
         </div>
       </div>
