@@ -22,6 +22,7 @@ interface dataType {
   name: string;
   email: string;
   product: string;
+  product_description: string; 
   price: number;
   receive_wallet: string;
   currency_option : string;
@@ -61,8 +62,8 @@ async function postData(data : dataType) {
       "price": data.price.toString(),
       "currency": data.currency_option,
       "name": data.product,
-      "description": "Video for the future", // Keeping original description
-      "image_url": data.product_image_url // Keeping original image URL
+      "description": data.product_description ?? '', // Keeping original description
+      "image_url": data.product_image_url, // Keeping original image URL
     },
     "merchant": {
       "name": data.name,
