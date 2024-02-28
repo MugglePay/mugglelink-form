@@ -30,7 +30,7 @@ import { AlertTriangle, FerrisWheel, QrCode } from "lucide-react";
 import CopyComponent from "./CopyComponent";
 import Image from "next/image";
 import PreviewCard from "./PreviewCard";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import QRCode from 'qrcode.react';
 
@@ -49,14 +49,15 @@ const formSchema = z.object({
     "USDC-Erc20 10",
     "ETH 10",
   ]),
-  currency_option: z.enum(["USD", "POUND"]),
+  currency_option: z.enum(["USD"]),
   escrow_enabled: z.optional(z.boolean()),
   require_full_name: z.optional(z.boolean()),
   require_email: z.optional(z.boolean()),
   require_phone_no: z.optional(z.boolean()),
   email_receipt_to_buyer: z.optional(z.boolean()),
   email_receipt_to_self: z.optional(z.boolean()),
-  color_pallet: z.optional(z.string())
+  color_pallet: z.optional(z.string()),
+  product_description :z.string().min(1, { message: "Product Description is required" })
 });
 
 const MerchantForm = ({ insertApi }: { insertApi: any }) => {
@@ -64,6 +65,8 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   const [formId, setFormID] = useState(null);
   const [URL, setURL] = useState('')
   const [theme, setTheme] = useState('#8C52FF');
+  const [name, setName] = useState("");
+  const submitButton = useRef<HTMLButtonElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -82,7 +85,8 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       require_phone_no: false,
       email_receipt_to_buyer: false,
       email_receipt_to_self: false,
-      color_pallet : '#8C52FF'
+      color_pallet : '#8C52FF',
+      product_description : ""
     },
   });
 
@@ -90,6 +94,8 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
     console.log(values)
     //@ts-ignore
     values.price = parseFloat(values.price);
+    //@ts-ignore
+    submitButton.current.disabled = true;
     const product = await insertApi(values);
     console.log(product);
 
@@ -180,6 +186,23 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 </FormItem>
               )}
             />
+            <FormField
+            control={form.control}
+            name="product_description" // Add a name for the product description field
+            render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+        <h2 className="text-lg font-semibold">Step 3</h2>
+        <p className="text-sm font-normal text-gray-400">
+          Add the description of your product or service
+        </p>
+      </FormLabel>
+      <Input type="text" {...field} />
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
 
             <FormField
               control={form.control}
@@ -187,7 +210,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <h2 className="text-lg font-semibold">Step 3</h2>
+                    <h2 className="text-lg font-semibold">Step 4</h2>
                     <p className="text-sm font-normal text-gray-400">
                       Add the price you would like to receive
                     </p>
@@ -208,7 +231,6 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="USD">USD</SelectItem>
-                                <SelectItem value="POUND">POUND</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />
@@ -234,7 +256,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <h2 className="text-lg font-semibold">Step 4</h2>
+                    <h2 className="text-lg font-semibold">Step 5</h2>
                     <p className="text-sm font-normal text-gray-400">
                       Select the crypto currency you would like to receive and
                       enter the wallet address
@@ -295,7 +317,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <h2 className="text-lg font-semibold">Step 5</h2>
+                    <h2 className="text-lg font-semibold">Step 6</h2>
                     <p className="text-sm font-normal text-gray-400">
                       Enable escrow payment
                     </p>
@@ -328,7 +350,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <h2 className="text-lg font-semibold">Step 6</h2>
+                      <h2 className="text-lg font-semibold">Step 7</h2>
                       <p className="text-sm font-normal text-gray-400">
                         Select the collect data option
                       </p>
@@ -521,18 +543,21 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                       {...field}
                     />
                   </FormControl>
+                  <FormDescription>
+                    Upon entering your email, you will complete the registration process on Pay. This will grant you access to manage your orders and cryptos.
+                    </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button type="submit">Submit</Button>
+            <Button ref={submitButton} type="submit">Submit</Button>
           </form>
         </Form>
       </div>
       <div className="flex flex-col mb-8">
         <div className="my-10">
-          <h1 className="my-5 font-semibold">Link</h1>
+          <h1 className="my-5 font-semibold">MuggleLink</h1>
 
           <CopyComponent id={formId} />
         </div>
