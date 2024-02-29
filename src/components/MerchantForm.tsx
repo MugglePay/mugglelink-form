@@ -32,56 +32,61 @@ import Image from "next/image";
 import PreviewCard from "./PreviewCard";
 import { useRef, useState } from "react";
 import { redirect } from "next/navigation";
-import QRCode from 'qrcode.react';
+import QRCode from "qrcode.react";
+import { Mail } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
-  company_image_url : z.optional(z.string()),
+  company_image_url: z.optional(z.string()),
   email: z.string().email({ message: "Invalid email address" }),
   product: z.string().min(1, { message: "Product is required" }),
-  product_image_url : z.optional(z.string()),
+  product_image_url: z.optional(z.string()),
   price: z.string().min(1, { message: "Price is required" }),
   currency_option: z.enum(["USD"]),
-  escrow_enabled: z.optional(z.boolean()),
   require_full_name: z.optional(z.boolean()),
   require_email: z.optional(z.boolean()),
   require_phone_no: z.optional(z.boolean()),
   email_receipt_to_buyer: z.optional(z.boolean()),
   email_receipt_to_self: z.optional(z.boolean()),
   color_pallet: z.optional(z.string()),
-  product_description :z.string().min(1, { message: "Product Description is required" })
+  product_description: z
+    .string()
+    .min(1, { message: "Product Description is required" }),
+  quantity_max: z.string().min(1, { message: "Quantity is required" }),
+  quantity_min: z.string().min(1, { message: "Quantity is required" }),
 });
 
 const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   //@ts-ignore
   const [formId, setFormID] = useState(null);
-  const [URL, setURL] = useState('')
-  const [theme, setTheme] = useState('#8C52FF');
+  const [URL, setURL] = useState("");
+  const [theme, setTheme] = useState("#8C52FF");
   const [name, setName] = useState("");
   const submitButton = useRef<HTMLButtonElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      company_image_url : "",
+      company_image_url: "",
       email: "",
       product: "",
-      product_image_url : "",
+      product_image_url: "",
       currency_option: "USD",
       price: "",
-      escrow_enabled: false,
       require_full_name: false,
       require_email: false,
       require_phone_no: false,
       email_receipt_to_buyer: false,
       email_receipt_to_self: false,
-      color_pallet : '#8C52FF',
-      product_description : ""
+      color_pallet: "#8C52FF",
+      product_description: "",
+      quantity_min: "1",
+      quantity_max: "100",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    console.log(values);
     //@ts-ignore
     values.price = parseFloat(values.price);
     //@ts-ignore
@@ -107,9 +112,17 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
     <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-20 mx-4 md:mx-auto w-[95%] md:w-[80%] my-20 ">
       <div className="flex justify-center items-center w-full">
         <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
-          <div className=" d-flex">
-            <span style={{ color: "#8c52ff", fontSize: "25px", fontWeight: "bold" }}>Create your MuggleLink</span>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
+            <div className=" d-flex">
+              <span
+                style={{
+                  color: "#8c52ff",
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                }}
+              >
+                Create your MuggleLink
+              </span>
             </div>
             <FormField
               control={form.control}
@@ -128,17 +141,21 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               )}
             />
 
-             <FormField
+            <FormField
               control={form.control}
               name="company_image_url"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
                     <p className="text-sm font-normal text-gray-400">
-                      Company Image Url
+                      Company Image Url (optional)
                     </p>
                   </FormLabel>
-                  <Input type="text" {...field} placeholder="https://example.com"/>
+                  <Input
+                    type="text"
+                    {...field}
+                    placeholder="https://example.com"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -161,38 +178,41 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               )}
             />
 
-<FormField
+            <FormField
               control={form.control}
               name="product_image_url"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
                     <p className="text-sm font-normal text-gray-400">
-                      Product Image Url
+                      Product Image Url (optional)
                     </p>
                   </FormLabel>
-                  <Input type="text" {...field} placeholder="https://example.com"/>
+                  <Input
+                    type="text"
+                    {...field}
+                    placeholder="https://example.com"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-            control={form.control}
-            name="product_description" // Add a name for the product description field
-            render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-        <h2 className="text-lg font-semibold">Step 3</h2>
-        <p className="text-sm font-normal text-gray-400">
-          Add the description of your product or service
-        </p>
-      </FormLabel>
-      <Input type="text" {...field} />
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
+              control={form.control}
+              name="product_description" // Add a name for the product description field
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <h2 className="text-lg font-semibold">Step 3</h2>
+                    <p className="text-sm font-normal text-gray-400">
+                      Add the description of your product or service
+                    </p>
+                  </FormLabel>
+                  <Input type="text" {...field} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
@@ -230,44 +250,11 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                     </div>
                     <div className="basis-3/4">
                       <FormControl>
-                        <Input type="number" {...field} step ={0.01}/>
+                        <Input type="number" {...field} step={0.01} />
                       </FormControl>
                     </div>
                   </div>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-
-            <FormField
-              control={form.control}
-              name="escrow_enabled"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    <h2 className="text-lg font-semibold">Step 6</h2>
-                    <p className="text-sm font-normal text-gray-400">
-                      Enable escrow payment
-                    </p>
-                  </FormLabel>
-                  <div className="flex items-center gap-6 mt-4">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <Label
-                      className="text-gray-600 leading-5 text-sm"
-                      htmlFor="escrow"
-                    >
-                      {" "}
-                      Agreed to enable escrow payment and its terms. What is
-                      escrow payment?
-                    </Label>
-                  </div>
                   <FormMessage />
                 </FormItem>
               )}
@@ -280,7 +267,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <h2 className="text-lg font-semibold">Step 7</h2>
+                      <h2 className="text-lg font-semibold">Step 5</h2>
                       <p className="text-sm font-normal text-gray-400">
                         Select the collect data option
                       </p>
@@ -363,7 +350,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <h2 className="text-lg font-semibold">Step 7</h2>
+                      <h2 className="text-lg font-semibold">Step 6</h2>
                       <p className="text-sm font-normal text-gray-400">
                         Select email notification
                       </p>
@@ -420,17 +407,16 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <h2 className="text-lg font-semibold">Step 8</h2>
+                    <h2 className="text-lg font-semibold">Step 7</h2>
                     <p className="text-sm font-normal text-gray-400">
                       Select the color Pallet
                     </p>
                   </FormLabel>
                   <FormItem>
                     <Select
-                      onValueChange={(value)=> {
+                      onValueChange={(value) => {
                         field.onChange(value);
-                        setTheme(value)
-                        
+                        setTheme(value);
                       }}
                       defaultValue={field.value}
                     >
@@ -455,6 +441,61 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               )}
             />
 
+<FormField
+              control={form.control}
+              name="quantity_max"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <h2 className="text-lg font-semibold">Step 8</h2>
+                    <p className="text-sm font-normal text-gray-400">
+                      Quantity
+                    </p>
+                  </FormLabel>
+                  <div className="flex gap-6">
+                    <div className=" basis-2/4">
+                      <FormField
+                        control={form.control}
+                        name="quantity_min"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              <p className="text-center">MIN</p>
+                            </FormLabel>
+                            <FormControl>
+                        <Input type="number" 
+                        {...field} 
+                        step={1} 
+                        onChange={(event) => {
+                          const parsedValue = Math.min(100, parseInt(event.target.value, 10));
+                          field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString());// Handle invalid input
+                        }}/>
+                      </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="basis-2/4">
+                      <FormLabel>
+                        <p className="pb-2 text-center">MAX</p>
+                      </FormLabel>
+                      <FormControl>
+                        <Input type="number" 
+                        {...field} step={1} 
+                        onChange={(event) => {
+                          const parsedValue = Math.min(100, parseInt(event.target.value, 10));
+                          field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString()); // Handle invalid input
+                        }}/>
+                      </FormControl>
+                    </div>
+                  </div>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="email"
@@ -462,40 +503,48 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 <FormItem>
                   <FormLabel>
                     <p className="text-sm font-normal text-gray-400 flex gap-2 items-center">
-                      <AlertTriangle size={14} /> Enter your email to Receive
+                      <Mail size={14} /> Enter your email to Receive
                       notification
                     </p>
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="abc@gmail.com"
+                      placeholder="alex@gmail.com"
                       type="email"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Upon entering your email, you will complete the registration process on Pay. This will grant you access to manage your orders and cryptos.
+                    <FormDescription>
+                      Upon entering your email, you will complete the
+                      registration process on{" "}
+                      <a
+                        href="https://merchants.mugglepay.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "#007bff",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        MugglePay
+                      </a>
+                      . This will grant you access to manage your orders and
+                      cryptos.
                     </FormDescription>
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button ref={submitButton} type="submit">Submit</Button>
+            <Button ref={submitButton} type="submit">
+              Submit
+            </Button>
           </form>
         </Form>
       </div>
       <div className="flex flex-col mb-8">
-        <div className="my-10">
-          <h1 className="my-5 font-semibold">MuggleLink</h1>
-
-          <CopyComponent id={formId} />
-        </div>
-        <div className="mb-8">
-        <h1 className="my-2 font-semibold">QR Code</h1>
-          <QRCode value={URL} size={80}/>
-          {/* <Image src={"/qrcode.jpeg"} width={50} height={50} alt="qrcode" /> */}
-        </div>
         <div className="mb-10">
           <h1 className="my-2 font-semibold">Preview</h1>
           <PreviewCard
@@ -503,9 +552,23 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
             currencyOption={form.getValues("currency_option")}
             price={form.getValues("price")}
             theme={theme}
-            productName={form.getValues('product')}
+            productName={form.getValues("product")}
           />
         </div>
+        <div className="my-10">
+        <div className="mt-40">
+          <h1 className="my-5 font-semibold">MuggleLink</h1>
+
+          <CopyComponent id={formId} />
+        </div>
+        </div>
+        {URL && (
+          <div className="mb-8">
+            <h1 className="my-2 font-semibold">QR Code</h1>
+            <QRCode value={URL} size={80} />
+            {/* <Image src={"/qrcode.jpeg"} width={50} height={50} alt="qrcode" /> */}
+          </div>
+        )}
       </div>
     </div>
   );
