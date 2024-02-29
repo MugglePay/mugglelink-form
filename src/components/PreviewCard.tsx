@@ -11,7 +11,7 @@ type previewCardProps = {
   price: string,
   currencyOption: "USD",
   theme: string | undefined,
-  productName: string
+  productName: string,
 }
 
 const PreviewCard = ({ name, price, currencyOption , theme, productName} : previewCardProps) => {
@@ -50,56 +50,42 @@ const PreviewCard = ({ name, price, currencyOption , theme, productName} : previ
                     <form>
                       <div className="grid w-full items-center gap-4">
                       <Select
-                            defaultValue={"USDT"}
+                            defaultValue={"USDT-Arbitrum"}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Select Payment Options" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="USDC">USDC</SelectItem>
+                              <SelectItem value="USDT-Arbitrum">USDT-Arbitrum</SelectItem>
+                              <SelectItem value="USDT-Trc20<">USDT-Trc20</SelectItem>
+                              <SelectItem value="ETH">ETH</SelectItem>
+                              <SelectItem value="USDC-Erc20">USDC-Erc20</SelectItem>
+                              <SelectItem value="USDT-Erc20">USDT-Erc20</SelectItem> 
                             </SelectContent>
                           </Select>
                         <div className="flex flex-col space-y-1.5">
                           <Label htmlFor="name">Name</Label>
-                          <Input id="name" autoComplete="off" disabled placeholder="Enter your full name" />
+                          <div className="py-4 px-10 border bg-white rounded"></div>
                         </div>
                         <div className="flex flex-col space-y-1.5">
                           <Label htmlFor="email">E-mail</Label>
-                          <Input
-                            id="email"
-                            className="outline-none"
-                            autoComplete="off"
-                            placeholder="your@gmail.com"
-                            disabled
-                          />
+                          <div className="py-4 px-10 border bg-white rounded"></div>
                         </div>
                         <div className="flex flex-col space-y-1.5">
                           <Label htmlFor="phone">Phone</Label>
-                          <Input
-                            id="phone"
-                            className="outline-none"
-                            placeholder="Enter your phone"
-                            autoComplete="off"
-                            disabled
-                          />
+                          <div className="py-4 px-10 border bg-white rounded"></div>
                         </div>
                         <div className="flex flex-col space-y-1.5">
                           <Label htmlFor="quantity">Quantity</Label>
-                          <Input
-                            id="quantity"
-                            className="outline-none"
-                            placeholder="1"
-                            autoComplete="off"
-                            disabled
-                          />
+                          <div className="py-4 px-10 border bg-white rounded"></div>
                         </div>
                       </div>
                     </form>
                   </CardContent>
                   <CardFooter className="flex justify-center">
-                <button className="py-2 w-full bg-[#8c52ff] rounded-full font-bold text-white hover:bg-[#7846d6]" style={{background : theme}}>
-                  Pay
-                </button>
+                  <div className="py-2 px-20 bg-[#8c52ff] rounded-full font-bold text-white hover:bg-[#7846d6]" style={{background : theme , cursor: 'default'}}>
+                Pay
+                </div>
               </CardFooter>
           </Card>
   )
