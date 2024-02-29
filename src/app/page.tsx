@@ -36,6 +36,8 @@ interface dataType {
   color_pallet : string,
   company_image_url: string,
   product_image_url : string
+  quantity_min: string,
+  quantity_max: string
 }
 
 async function insertMerchant(values: dataType) {
@@ -84,7 +86,7 @@ async function postData(data : dataType) {
       "requires_billing_address": false, // No equivalent in dataType, keeping false
       "requires_country": false, // No equivalent in dataType, keeping false
       "requires_quantity": {
-        "min": 1, "max": 12 // Keeping original values
+        "min": parseInt(data.quantity_min), "max": parseInt(data.quantity_max)  // Keeping original values
       }
     },
   "custom_fields": []
@@ -227,31 +229,26 @@ export default function Home() {
                   <CardDescription></CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form>
-                    <div className="grid w-full items-center gap-4">
-                      <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="name">Name</Label>
-                        <Input id="name" autoComplete="off" disabled />
-                      </div>
-                      <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="email">E-mail</Label>
-                        <Input
-                          id="email"
-                          className="outline-none"
-                          autoComplete="off"
-                          disabled
-                        />
-                      </div>
+                <form>
+                  <div className="grid w-full items-center gap-4">
+                    <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="name">Name</Label>
+                    <div className="py-4 px-10 border bg-white rounded"></div>
                     </div>
-                  </form>
+                    <div className="flex flex-col space-y-1.5">
+                      <Label htmlFor="email">E-mail</Label>
+                      <div className="py-4 px-10 border bg-white rounded"></div>
+                    </div>
+                  </div>
+                </form>
                 </CardContent>
                 <CardFooter className="flex justify-between"></CardFooter>
               </Card>
             </CardContent>
             <CardFooter className="flex justify-center">
-              <button className="py-2 px-20 bg-[#8c52ff] rounded-full font-bold text-white hover:bg-[#7846d6]">
+              <div className="py-2 px-20 bg-[#8c52ff] rounded-full font-bold text-white" style={{ backgroundColor: '#8c52ff', cursor: 'default' }}>
                 Pay
-              </button>
+                </div>
             </CardFooter>
           </Card>
         </div>
