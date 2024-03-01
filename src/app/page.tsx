@@ -139,12 +139,24 @@ export default function Home() {
         Stay tuned and be part of our journey from the very beginning!
         </a>
       </div>
-        <div className="flex flex-col gap-1 items-center justify-center text-base font-semibold">
-        <a href="https://forms.gle/S27vjTi9G2FM4KEa6" target="_blank" rel="noopener noreferrer" className="py-2 px-6 md:px-20 bg-white rounded-full font-semibold md:font-bold text-[#8c52ff] hover:bg-[#8c52ff] hover:text-white">
-        Join the waiting list!
-        </a>
-          
-          <h1 className="">Accept Crypto in 1 min!</h1>
+        <div className="flex flex-col gap-2 items-center justify-center text-base font-semibold">
+        <span className="py-2 px-6 md:px-20 bg-white rounded-full font-bold text-[#8c52ff] cursor-default text-xl">
+  Accept Crypto in 1 min!
+</span>
+
+        
+        <div className="flex items-center justify-center my-2 text-white">
+          <h3 className="text-base md:text-xl font-semibold text-white">Join Muggle's Telegram Group</h3>
+          <Link href="https://t.me/MuggleLink1" target="_blank" rel="noopener noreferrer">
+            <Image
+              src="/telegram.png"
+              width={32}
+              height={32}
+              alt="Telegram"
+            />
+          </Link>
+          </div>
+
         
     </div>
         </div>
@@ -261,18 +273,6 @@ export default function Home() {
         </CardContent>
         <CardFooter></CardFooter>
       </Card>
-
-      <div className="flex items-center justify-center my-8 text-white">
-          <h3 className="text-base md:text-xl font-semibold text-white">Powered by MuggleLink!</h3>
-          <Link href="https://t.me/MuggleLink1" target="_blank" rel="noopener noreferrer">
-            <Image
-              src="/telegram.png"
-              width={32}
-              height={32}
-              alt="Telegram"
-            />
-          </Link>
-          </div>
     </>
   );
 }

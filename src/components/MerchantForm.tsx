@@ -541,6 +541,20 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
             <Button ref={submitButton} type="submit">
               Submit
             </Button>
+            <div className="flex flex-col sm:flex-row items-center mt-4 gap-4">
+                <div className="basis-1/2">
+                  <h1 className="my-5 font-semibold">MuggleLink</h1>
+                  <CopyComponent id={formId} />
+                </div>
+                <div className="basis-1/2">
+                  {URL && (
+                    <div className="mt-4">
+                      <h1 className="my-5 font-semibold">QR Code</h1>
+                      <QRCode value={URL} size={80} />
+                    </div>
+                  )}
+                </div>
+              </div>
           </form>
         </Form>
       </div>
@@ -554,13 +568,6 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
             theme={theme}
             productName={form.getValues("product")}
           />
-        </div>
-        <div className="my-10">
-        <div className="mt-40">
-          <h1 className="my-5 font-semibold">MuggleLink</h1>
-
-          <CopyComponent id={formId} />
-        </div>
         </div>
         {URL && (
           <div className="mb-8">
