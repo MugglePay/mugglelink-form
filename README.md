@@ -19,3 +19,14 @@ npm run build
 npm start
 
 #### 4. Open your web browser and go to http://localhost:3000 to access the application.
+
+## Deploy on vercel
+##### 1. Go to vercel and import project 
+
+##### 2. Go to settings - > general - > build and development 
+
+##### 3. In build command, enter : npx prisma generate & & next build
+
+##### 4. Save the changes and redeploy
+
+
