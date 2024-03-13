@@ -30,10 +30,11 @@ import { AlertTriangle, FerrisWheel, QrCode } from "lucide-react";
 import CopyComponent from "./CopyComponent";
 import Image from "next/image";
 import PreviewCard from "./PreviewCard";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import QRCode from "qrcode.react";
 import { Mail } from "lucide-react";
+import CustomFieldForm from "./CustomFieldForm";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -54,6 +55,13 @@ const formSchema = z.object({
     .min(1, { message: "Product Description is required" }),
   quantity_max: z.string().min(1, { message: "Quantity is required" }),
   quantity_min: z.string().min(1, { message: "Quantity is required" }),
+  custom_fields: z.array(
+    z.object({
+      field: z.string().min(1, { message: 'Field Key is required' }),
+      name: z.string().min(1, { message: "Field Name is required" }),
+      caption: z.string().optional(),
+    })
+  ),
 });
 
 const MerchantForm = ({ insertApi }: { insertApi: any }) => {
@@ -82,6 +90,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       product_description: "",
       quantity_min: "1",
       quantity_max: "100",
+      custom_fields: []
     },
   });
 
@@ -537,6 +546,14 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 </FormItem>
               )}
             />
+
+            <div>
+              <h2 className="text-lg font-semibold">Custom Fields</h2>
+              <p className="text-sm font-normal text-gray-400 mb-2">
+                This section allows you to create custom fields for your form and collect information from there.
+              </p>
+              <CustomFieldForm form={form}  />
+            </div>
 
             <Button ref={submitButton} type="submit">
               Submit
