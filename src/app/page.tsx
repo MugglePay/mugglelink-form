@@ -16,6 +16,7 @@ import prisma from "@/db";
 import MerchantForm from "@/components/MerchantForm";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { CustomField } from "@/components/CustomFieldForm";
 
 const AnimatedText = dynamic(()=>import("@/components/AnimatedText"), {ssr: false})
 interface dataType {
@@ -37,7 +38,8 @@ interface dataType {
   company_image_url: string,
   product_image_url : string
   quantity_min: string,
-  quantity_max: string
+  quantity_max: string,
+  custom_fields: CustomField[]
 }
 
 async function insertMerchant(values: dataType) {
@@ -89,7 +91,7 @@ async function postData(data : dataType) {
         "min": parseInt(data.quantity_min), "max": parseInt(data.quantity_max)  // Keeping original values
       }
     },
-  "custom_fields": []
+  "custom_fields": data.custom_fields || []
 };
 
 if(data.require_phone_no){
