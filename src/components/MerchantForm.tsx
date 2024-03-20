@@ -62,6 +62,9 @@ const formSchema = z.object({
       caption: z.string().optional(),
     })
   ),
+}).refine((data) => Number(data.quantity_max) >= Number(data.quantity_min), {
+  message: "Quantity max must be higher than or equal to Quantity min",
+  path: ["quantity_max"], // path of error
 });
 
 const MerchantForm = ({ insertApi }: { insertApi: any }) => {
@@ -89,7 +92,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       color_pallet: "#8C52FF",
       product_description: "",
       quantity_min: "1",
-      quantity_max: "100",
+      quantity_max: "10000",
       custom_fields: []
     },
   });
@@ -474,9 +477,11 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                             <FormControl>
                         <Input type="number" 
                         {...field} 
+                                min={1}
                         step={1} 
                         onChange={(event) => {
-                          const parsedValue = Math.min(100, parseInt(event.target.value, 10));
+                          let parsedValue = parseInt(event.target.value, 10);
+                          parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
                           field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString());// Handle invalid input
                         }}/>
                       </FormControl>
@@ -491,9 +496,11 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                       </FormLabel>
                       <FormControl>
                         <Input type="number" 
-                        {...field} step={1} 
+                          {...field} step={1} 
+                          min={1}
                         onChange={(event) => {
-                          const parsedValue = Math.min(100, parseInt(event.target.value, 10));
+                          let parsedValue = parseInt(event.target.value, 10);
+                          parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
                           field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString()); // Handle invalid input
                         }}/>
                       </FormControl>

@@ -45,7 +45,7 @@ const CustomFieldForm = ({ form }: { form: any }) => {
     <div className="flex flex-col gap-6">
       {fields.map((val, idx) => {
         return (
-          <div className="flex flex-col w-full py-4 px-4 border rounded">
+          <div className="flex flex-col w-full py-4 px-4 border rounded" key={`field_${idx}`}>
             <div className="flex justify-between mb-4 items-center">
               <h3 className="text-lg font-medium">Field {idx + 1}</h3>
               <Button
