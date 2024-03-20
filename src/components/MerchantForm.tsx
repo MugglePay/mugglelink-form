@@ -91,8 +91,8 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       email_receipt_to_self: false,
       color_pallet: "#8C52FF",
       product_description: "",
-      quantity_min: "",
-      quantity_max: "",
+      quantity_min: "1",
+      quantity_max: "10000",
       custom_fields: []
     },
   });
