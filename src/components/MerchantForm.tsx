@@ -478,11 +478,10 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                         <Input type="number" 
                         {...field} 
                                 min={1}
-                                max={10000}
                         step={1} 
                         onChange={(event) => {
-                          let parsedValue = Math.min(10000, parseInt(event.target.value, 10));
-                          parsedValue = parsedValue <= 0 ? 1 : parsedValue;
+                          let parsedValue = parseInt(event.target.value, 10);
+                          parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
                           field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString());// Handle invalid input
                         }}/>
                       </FormControl>
@@ -499,10 +498,9 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                         <Input type="number" 
                           {...field} step={1} 
                           min={1}
-                                max={10000}
                         onChange={(event) => {
-                          let parsedValue = Math.min(10000, parseInt(event.target.value, 10));
-                          parsedValue = parsedValue <= 0 ? 1 : parsedValue;
+                          let parsedValue = parseInt(event.target.value, 10);
+                          parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
                           field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString()); // Handle invalid input
                         }}/>
                       </FormControl>
