@@ -55,6 +55,8 @@ const formSchema = z.object({
     .min(1, { message: "Product Description is required" }),
   quantity_max: z.string().min(1, { message: "Quantity is required" }),
   quantity_min: z.string().min(1, { message: "Quantity is required" }),
+  enable_peer_to_peer: z.optional(z.boolean()),
+  merchant_address: z.string().optional(),
   custom_fields: z.array(
     z.object({
       field: z.string().min(1, { message: 'Field Key is required' }),
@@ -93,6 +95,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       product_description: "",
       quantity_min: "1",
       quantity_max: "10000",
+      enable_peer_to_peer: false,
       custom_fields: []
     },
   });
@@ -109,6 +112,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
     setFormID(product.data.product_id);
     const url = `app.link?pid=${product.data.product_id}`;
     setURL(url);
+
     redirect(url);
 
     if (values) {
@@ -133,7 +137,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                   fontWeight: "bold",
                 }}
               >
-                Create your MuggleLink
+                Create your link
               </span>
             </div>
             <FormField
@@ -453,7 +457,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               )}
             />
 
-<FormField
+            <FormField
               control={form.control}
               name="quantity_max"
               render={({ field }) => (
@@ -475,16 +479,16 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                               <p className="text-center">MIN</p>
                             </FormLabel>
                             <FormControl>
-                        <Input type="number" 
-                        {...field} 
+                              <Input type="number"
+                                {...field}
                                 min={1}
-                        step={1} 
-                        onChange={(event) => {
-                          let parsedValue = parseInt(event.target.value, 10);
-                          parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
-                          field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString());// Handle invalid input
-                        }}/>
-                      </FormControl>
+                                step={1}
+                                onChange={(event) => {
+                                  let parsedValue = parseInt(event.target.value, 10);
+                                  parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
+                                  field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString());// Handle invalid input
+                                }} />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -495,14 +499,14 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                         <p className="pb-2 text-center">MAX</p>
                       </FormLabel>
                       <FormControl>
-                        <Input type="number" 
-                          {...field} step={1} 
+                        <Input type="number"
+                          {...field} step={1}
                           min={1}
-                        onChange={(event) => {
-                          let parsedValue = parseInt(event.target.value, 10);
-                          parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
-                          field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString()); // Handle invalid input
-                        }}/>
+                          onChange={(event) => {
+                            let parsedValue = parseInt(event.target.value, 10);
+                            parsedValue = parsedValue <= 0 || isNaN(parsedValue) ? 1 : parsedValue;
+                            field.onChange(isNaN(parsedValue) ? "" : parsedValue.toString()); // Handle invalid input
+                          }} />
                       </FormControl>
                     </div>
                   </div>
@@ -511,6 +515,58 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 </FormItem>
               )}
             />
+
+            <div className="flex flex-col">
+              <FormField
+                control={form.control}
+                name="enable_peer_to_peer"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <h2 className="text-lg font-semibold">Step 9</h2>
+                      <p className="text-sm font-normal text-gray-400">
+                        peer to peer mode
+                      </p>
+                    </FormLabel>
+                    <div className="flex  items-center gap-6 mt-4">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <Label
+                        className="text-gray-600 leading-5 text-sm"
+                        htmlFor="escrow"
+                      >
+                        {" "}
+                        Enable peer to peer mode
+                      </Label>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {form.watch("enable_peer_to_peer") && (
+                <div className="mt-4"> {/* Add margin-top here */}
+                  <FormField
+                    control={form.control}
+                    name="merchant_address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Merchant Address</FormLabel>
+                        <Input type="text" {...field} placeholder="Enter Merchant Address" />
+                        <FormMessage />
+                        <FormDescription>The payment will directly send to your account. Please make sure you have control of the address</FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+            </div>
+
+
+
 
             <FormField
               control={form.control}
@@ -543,7 +599,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                           textDecoration: "underline",
                         }}
                       >
-                        MugglePay
+
                       </a>
                       . This will grant you access to manage your orders and
                       cryptos.
@@ -559,26 +615,26 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               <p className="text-sm font-normal text-gray-400 mb-2">
                 This section allows you to create custom fields for your form and collect information from there.
               </p>
-              <CustomFieldForm form={form}  />
+              <CustomFieldForm form={form} />
             </div>
 
             <Button ref={submitButton} type="submit">
               Submit
             </Button>
             <div className="flex flex-col sm:flex-row items-center mt-4 gap-4">
-                <div className="basis-1/2">
-                  <h1 className="my-5 font-semibold">MuggleLink</h1>
-                  <CopyComponent id={formId} />
-                </div>
-                <div className="basis-1/2">
-                  {URL && (
-                    <div className="mt-4">
-                      <h1 className="my-5 font-semibold">QR Code</h1>
-                      <QRCode value={URL} size={80} />
-                    </div>
-                  )}
-                </div>
+              <div className="basis-1/2">
+                <h1 className="my-5 font-semibold"></h1>
+                <CopyComponent id={formId} />
               </div>
+              <div className="basis-1/2">
+                {URL && (
+                  <div className="mt-4">
+                    <h1 className="my-5 font-semibold">QR Code</h1>
+                    <QRCode value={URL} size={80} />
+                  </div>
+                )}
+              </div>
+            </div>
           </form>
         </Form>
       </div>

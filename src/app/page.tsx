@@ -18,15 +18,15 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { CustomField } from "@/components/CustomFieldForm";
 
-const AnimatedText = dynamic(()=>import("@/components/AnimatedText"), {ssr: false})
+const AnimatedText = dynamic(() => import("@/components/AnimatedText"), { ssr: false })
 interface dataType {
   name: string;
   email: string;
   product: string;
-  product_description: string; 
+  product_description: string;
   price: number;
   receive_wallet: string;
-  currency_option : string;
+  currency_option: string;
   payment_option: string;
   escrow_enabled: boolean;
   require_full_name: boolean;
@@ -34,11 +34,13 @@ interface dataType {
   require_phone_no: boolean;
   email_receipt_to_buyer: boolean;
   email_receipt_to_self: boolean;
-  color_pallet : string,
+  color_pallet: string,
   company_image_url: string,
-  product_image_url : string
+  product_image_url: string
   quantity_min: string,
   quantity_max: string,
+  enable_peer_to_peer?: boolean;
+  merchant_address?: string;
   custom_fields: CustomField[]
 }
 
@@ -50,7 +52,7 @@ async function insertMerchant(values: dataType) {
       data: values,
     });
 
-    
+
     console.log(newProduct);
     return newProduct;
   } catch (error) {
@@ -58,7 +60,7 @@ async function insertMerchant(values: dataType) {
   }
 }
 
-async function postData(data : dataType) {
+async function postData(data: dataType) {
   "use server"
   const jsonData = {
     "product": {
@@ -79,7 +81,9 @@ async function postData(data : dataType) {
           "buttonText": "#FFFFFF" // Keeping original color
         }
       },
-      "email" : data.email ?? ""
+      "email": data.email ?? "",
+      "p2p_enabled": data.enable_peer_to_peer,
+      "merchant_address": data.merchant_address
     },
     "fields": {
       "requires_name": data.require_full_name,
@@ -91,21 +95,21 @@ async function postData(data : dataType) {
         "min": parseInt(data.quantity_min), "max": parseInt(data.quantity_max)  // Keeping original values
       }
     },
-  "custom_fields": data.custom_fields || []
-};
+    "custom_fields": data.custom_fields || []
+  };
 
-if(data.require_phone_no){
-jsonData.custom_fields.push(
-  //@ts-ignore
-  {
-    "field": "Phone Number",
-    "name": "Phone Number",
-    "caption": "Please Enter your phone number"
+  if (data.require_phone_no) {
+    jsonData.custom_fields.push(
+      //@ts-ignore
+      {
+        "field": "Phone Number",
+        "name": "Phone Number",
+        "caption": "Please Enter your phone number"
+      }
+    )
   }
-)
-}
   // Default options are marked with *
-  const response = await fetch('https://api.muggle.link/api/products', {
+  const response = await fetch('http://127.0.0.1:3001/api/products', {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -126,41 +130,41 @@ export default function Home() {
     <>
       <div className="flex flex-col sm:flex-row justify-between items-center gap-2 md:gap-10 mx-4 md:mx-auto w-[95%] lg:w-[70%] my-32 sm:my-56 tracking-wide" suppressHydrationWarning>
         <div className="flex flex-col items-center justify-center sm:items-start sm:justify-start w-full text-white">
-          <h1 className="text-4xl md:text-6xl mb-10 font-bold">MuggleLink</h1>
+          <h1 className="text-4xl md:text-6xl mb-10 font-bold">Link</h1>
           <div className="flex justify-center items-center gap-2 flex-wrap sm:flex-row">
             <h3 className="text-xl md:text-2xl text-align: center">Accept crypto on</h3>
-            <AnimatedText/>
+            <AnimatedText />
           </div>
           <ul className="list-disc list-inside ml-4 md:ml-10 my-8 text-base md:text-xl">
-          <li> Accept crypto on telegram and universal Social Platform.</li>
+            <li> Accept crypto on telegram and universal Social Platform.</li>
             <li>Exchange Everything with an escrow payment protocol.</li>
             <li>The future of social marketplace</li>
           </ul>
           <div className="flex items-center justify-center"> {/* Parent container */}
-        <a className="text-xl md:text-3xl" style={{ fontSize: "1rem", fontWeight: "normal", marginBottom: "15px"  }}>
-        Stay tuned and be part of our journey from the very beginning!
-        </a>
-      </div>
-        <div className="flex flex-col gap-2 items-center justify-center text-base font-semibold">
-        <span className="py-2 px-6 md:px-20 bg-white rounded-full font-bold text-[#8c52ff] cursor-default text-xl">
-  Accept Crypto in 1 min!
-</span>
-
-        
-        <div className="flex items-center justify-center my-2 text-white">
-          <h3 className="text-base md:text-xl font-semibold text-white">Join Muggle's Telegram Group</h3>
-          <Link href="https://t.me/MuggleLink1" target="_blank" rel="noopener noreferrer">
-            <Image
-              src="/telegram.png"
-              width={32}
-              height={32}
-              alt="Telegram"
-            />
-          </Link>
+            <a className="text-xl md:text-3xl" style={{ fontSize: "1rem", fontWeight: "normal", marginBottom: "15px" }}>
+              Stay tuned and be part of our journey from the very beginning!
+            </a>
           </div>
+          <div className="flex flex-col gap-2 items-center justify-center text-base font-semibold">
+            <span className="py-2 px-6 md:px-20 bg-white rounded-full font-bold text-[#8c52ff] cursor-default text-xl">
+              Accept Crypto in 1 min!
+            </span>
 
-        
-    </div>
+
+            <div className="flex items-center justify-center my-2 text-white">
+              <h3 className="text-base md:text-xl font-semibold text-white">Join Telegram Group</h3>
+              <Link href="https://t.me/" target="_blank" rel="noopener noreferrer">
+                <Image
+                  src="/telegram.png"
+                  width={32}
+                  height={32}
+                  alt="Telegram"
+                />
+              </Link>
+            </div>
+
+
+          </div>
         </div>
         <div className="flex justify-center items-center w-full mt-6 px-4 sm:mt-0 sm:px-0">
           <Card className="w-full md:w-[350px] rounded-3xl">
@@ -243,18 +247,18 @@ export default function Home() {
                   <CardDescription></CardDescription>
                 </CardHeader>
                 <CardContent>
-                <form>
-                  <div className="grid w-full items-center gap-4">
-                    <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name">Name</Label>
-                    <div className="py-4 px-10 border bg-white rounded"></div>
+                  <form>
+                    <div className="grid w-full items-center gap-4">
+                      <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="name">Name</Label>
+                        <div className="py-4 px-10 border bg-white rounded"></div>
+                      </div>
+                      <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="email">E-mail</Label>
+                        <div className="py-4 px-10 border bg-white rounded"></div>
+                      </div>
                     </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="email">E-mail</Label>
-                      <div className="py-4 px-10 border bg-white rounded"></div>
-                    </div>
-                  </div>
-                </form>
+                  </form>
                 </CardContent>
                 <CardFooter className="flex justify-between"></CardFooter>
               </Card>
@@ -262,7 +266,7 @@ export default function Home() {
             <CardFooter className="flex justify-center">
               <div className="py-2 px-20 bg-[#8c52ff] rounded-full font-bold text-white" style={{ backgroundColor: '#8c52ff', cursor: 'default' }}>
                 Pay
-                </div>
+              </div>
             </CardFooter>
           </Card>
         </div>

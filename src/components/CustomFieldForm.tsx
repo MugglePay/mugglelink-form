@@ -1,148 +1,61 @@
-import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
-import { PlusIcon, Trash2Icon } from "lucide-react";
-import {
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
+"use client";
+
+import { useState } from "react";
+import { Label } from "./ui/label";
+import Image from "next/image";
+import { ImageIcon, Upload, UploadIcon } from "lucide-react";
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
-export interface CustomField {
-  name: string;
-  field: string;
-  caption?: string;
-}
+const ImageUploder = () => {
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
-const CustomFieldForm = ({ form }: { form: any }) => {
-  const [fields, setFields] = useState<CustomField[]>([]);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
 
-  const handleAddField = () => {
-    setFields([...fields, { name: "", field: "", caption: "" }]);
+      reader.onload = (event: ProgressEvent<FileReader>) => {
+        setSelectedFile(event.target?.result as string); // Cast to string
+      };
+
+      reader.onerror = (error: any) => {
+        console.error("Error reading file:", error);
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
-
-  const handleRemoveField = (index: number) => {
-    setFields((prevFields) => prevFields.filter((_, i) => i !== index));
-  };
-
-  const handleInputChange = (event: any, key: string, index: number) => {
-    const { value } = event.target;
-
-    setFields((prevFields) =>
-      prevFields.map((field, i) =>
-        i === index ? { ...field, [key]: value } : field
-      )
-    );
-  };
-
-  useEffect(() => {
-    form.setValue("custom_fields", fields);
-  }, [fields]);
-
   return (
-    <div className="flex flex-col gap-6">
-      {fields.map((val, idx) => {
-        return (
-          <div className="flex flex-col w-full py-4 px-4 border rounded" key={`field_${idx}`}>
-            <div className="flex justify-between mb-4 items-center">
-              <h3 className="text-lg font-medium">Field {idx + 1}</h3>
-              <Button
-                type="button"
-                size="icon"
-                variant="ghost"
-                className="text-red-500 hover:text-red-600"
-                onClick={() => handleRemoveField(idx)}
-              >
-                <Trash2Icon />
-              </Button>
-            </div>
-            <div className="flex flex-col gap-6">
-              <div className="flex gap-6 w-full xl:flex-row flex-col [&>*]:flex-1">
-                <FormField
-                  control={form.control}
-                  name={`custom_fields[${idx}].field`} // Add a name for the product description field
-                  render={({ field }) => (
-                    <FormItem key={`field_${idx}`} id={`field_${idx}_field`}>
-                      <FormLabel>
-                        <p className="text-center uppercase">Key</p>
-                      </FormLabel>
-                      <Input
-                        type="text"
-                        {...field}
-                        value={val.field}
-                        onChange={(event) =>
-                          handleInputChange(event, "field", idx)
-                        }
-                      />
-                      <FormDescription>e.g wallet</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name={`custom_fields[${idx}].name`} // Add a name for the product description field
-                  render={({ field }) => (
-                    <FormItem key={`field_${idx}`} id={`field_${idx}_name`}>
-                      <FormLabel>
-                        <p className="text-center uppercase">Name</p>
-                      </FormLabel>
-                      <Input
-                        type="text"
-                        {...field}
-                        value={val.name}
-                        onChange={(event) =>
-                          handleInputChange(event, "name", idx)
-                        }
-                      />
-                      <FormDescription>e.g Wallet Address</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <FormField
-                control={form.control}
-                name={`custom_fields[${idx}].caption`} // Add a name for the product description field
-                render={({ field }) => (
-                  <FormItem key={`field_${idx}`} id={`field_${idx}_caption`}>
-                    <FormLabel>
-                      <p className="text-center uppercase">Caption</p>
-                    </FormLabel>
-                    <Input
-                      type="text"
-                      {...field}
-                      value={val.caption}
-                      onChange={(event) =>
-                        handleInputChange(event, "caption", idx)
-                      }
-                    />
-                    <FormDescription>
-                      e.g Enter your wallet address
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+    <div className="flex gap-10 w-full">
+      <div className="basis-1/4 h-[120px] w-full xl:w-[120px] mt-4 border-2  rounded-sm flex items-center justify-center flex-col relative aspect-[0]">
+        {selectedFile ? (
+          <Image
+            src={selectedFile}
+            alt="Preview"
+            className="max-w-[120px] max-h-[120px] overflow-hidden object-cover rounded-lg"
+            fill
+          />
+        ) : (
+          <>
+           <ImageIcon />
+          </>
+        )}
+      </div>
+      <div className="basis-3/4">
+        <Label
+          htmlFor="picture"
+          className="h-full w-full flex items-center justify-center flex-col "
+        >
+          <Input type="file" id="picture"  style={{ display: "none" }}  onChange={handleFileChange} />
+          <div className="text-sm w-full px-4 py-2 flex items-center justify-between border-2 rounded" >
+            <h3 className="text-gray-400 font-normal">Upload the logo (Optional)</h3>
+            <UploadIcon className="ml-2" />
           </div>
-        );
-      })}
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={handleAddField}
-      >
-        <PlusIcon className="mr-1" /> Add{" "}
-        {fields.length > 0 ? "Other" : "Custom"} Field
-      </Button>
+        </Label>
+      </div>
     </div>
   );
 };
 
-export default CustomFieldForm;
+export default ImageUploder;
