@@ -130,7 +130,7 @@ export default function Home() {
     <>
       <div className="flex flex-col sm:flex-row justify-between items-center gap-2 md:gap-10 mx-4 md:mx-auto w-[95%] lg:w-[70%] my-32 sm:my-56 tracking-wide" suppressHydrationWarning>
         <div className="flex flex-col items-center justify-center sm:items-start sm:justify-start w-full text-white">
-          <h1 className="text-4xl md:text-6xl mb-10 font-bold">Link</h1>
+          <h1 className="text-4xl md:text-6xl mb-10 font-bold">MuggleLink</h1>
           <div className="flex justify-center items-center gap-2 flex-wrap sm:flex-row">
             <h3 className="text-xl md:text-2xl text-align: center">Accept crypto on</h3>
             <AnimatedText />
@@ -152,8 +152,8 @@ export default function Home() {
 
 
             <div className="flex items-center justify-center my-2 text-white">
-              <h3 className="text-base md:text-xl font-semibold text-white">Join Telegram Group</h3>
-              <Link href="https://t.me/" target="_blank" rel="noopener noreferrer">
+              <h3 className="text-base md:text-xl font-semibold text-white">Join muggle's Telegram Group</h3>
+              <Link href="https://t.me/MuggleLink1" target="_blank" rel="noopener noreferrer">
                 <Image
                   src="/telegram.png"
                   width={32}

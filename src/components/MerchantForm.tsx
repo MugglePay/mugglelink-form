@@ -599,7 +599,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                           textDecoration: "underline",
                         }}
                       >
-
+                        MugglePay
                       </a>
                       . This will grant you access to manage your orders and
                       cryptos.
