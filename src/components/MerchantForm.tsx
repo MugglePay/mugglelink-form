@@ -34,7 +34,6 @@ import { useEffect, useRef, useState } from "react";
 import { redirect } from "next/navigation";
 import QRCode from "qrcode.react";
 import { Mail } from "lucide-react";
-import CustomFieldForm from "./CustomFieldForm";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -56,13 +55,6 @@ const formSchema = z.object({
     .min(1, { message: "Product Description is required" }),
   quantity_max: z.string().min(1, { message: "Quantity is required" }),
   quantity_min: z.string().min(1, { message: "Quantity is required" }),
-  custom_fields: z.array(
-    z.object({
-      field: z.string().min(1, { message: 'Field Key is required' }),
-      name: z.string().min(1, { message: "Field Name is required" }),
-      caption: z.string().optional(),
-    })
-  ),
 }).refine((data) => Number(data.quantity_max) >= Number(data.quantity_min), {
   message: "Quantity max must be higher than or equal to Quantity min",
   path: ["quantity_max"], // path of error
@@ -93,38 +85,37 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
       color_pallet: "#8C52FF",
       product_description: "",
       quantity_min: "1",
-      quantity_max: "10000",
-      custom_fields: []
+      quantity_max: "10000"
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values);
+	console.log(values);
 		//@ts-ignore
-		values.price = parseFloat(values.price);
+	values.price = parseFloat(values.price);
 		//@ts-ignore
-		submitButton.current.disabled = true;
-		const product = await insertApi(values);
-		console.log(product);
+	submitButton.current.disabled = true;
+	const product = await insertApi(values);
+	console.log(product);
 
-		setFormID(product.data.product_id);
-		const url = `app.link?pid=${product.data.product_id}`;
-		setURL(url);
+	setFormID(product.data.product_id);
+	const url = `app.link?pid=${product.data.product_id}`;
+	setURL(url);
 
-		if (values.email_receipt_to_self)
-			await axios.get(
-				`http://localhost:3002/api/sendgrid?email=${values.email}&name=${values.name}&address=${values.merchant_address}&price=${values.price}&description=${values.product_description}`
-			);
+	if (values.email_receipt_to_self)
+		await axios.get(
+			`http://localhost:3002/api/sendgrid?email=${values.email}&name=${values.name}&address=${values.merchant_address}&price=${values.price}&description=${values.product_description}`
+		);
 
-		if (values) {
-			alert("Product Added");
-		}
-
-		setTimeout(() => {
-			form.reset();
-		}, 2000);
-		redirect(url);
+	if (values) {
+		alert("Product Added");
 	}
+
+	setTimeout(() => {
+		form.reset();
+	}, 2000);
+	redirect(url);
+}
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-20 mx-4 md:mx-auto w-[95%] md:w-[80%] my-20 ">
