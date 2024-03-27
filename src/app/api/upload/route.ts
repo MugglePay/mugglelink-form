@@ -3,10 +3,10 @@ import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
 import { nanoid } from 'nanoid'
 
 const client = new S3Client({
-  region: process.env.S3_REGION ?? '',
+  region: process.env.S3_REGION || '',
   credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY ?? '',
-    secretAccessKey: process.env.S3_SECRET_KEY ?? ''
+    accessKeyId: process.env.S3_ACCESS_KEY || '',
+    secretAccessKey: process.env.S3_SECRET_KEY || ''
   }
 })
 
@@ -14,9 +14,10 @@ export async function POST(request: Request) {
   const { filename, contentType } = await request.json()
 
   try {
+    const name = `paymentlinks/${nanoid()}-${filename}`
     const { url, fields } = await createPresignedPost(client, {
-      Bucket: process.env.S3_BUCKET_NAME ?? '',
-      Key: `paymentlinks/${nanoid()}-${filename}`,
+      Bucket: process.env.S3_BUCKET_NAME || '',
+      Key: name,
       Conditions: [
         ['content-length-range', 0, 10485760], // up to 10 MB
         ['starts-with', '$Content-Type', contentType]
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
       Expires: 600 // Seconds before the presigned post expires. 3600 by default.
     })
 
-    return Response.json({ url, fields })
+    return Response.json({ url, fields, fileUrl: `${url}${name}` })
   } catch (error: any) {
     return Response.json({ error: error.message })
   }
