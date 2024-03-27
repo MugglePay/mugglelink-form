@@ -90,29 +90,28 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-	console.log(values);
+    console.log(values);
 		//@ts-ignore
-	values.price = parseFloat(values.price);
+    values.price = parseFloat(values.price);
 		//@ts-ignore
-	submitButton.current.disabled = true;
-	const product = await insertApi(values);
-	console.log(product);
+	  submitButton.current.disabled = true;
+	  const product = await insertApi(values);
+	  console.log(product);
 
-	setFormID(product.data.product_id);
-	const url = `app.link?pid=${product.data.product_id}`;
-	setURL(url);
-
-	if (values.email_receipt_to_self)
-		await axios.get(
-			`http://localhost:3002/api/sendgrid?email=${values.email}&name=${values.name}&address=${values.merchant_address}&price=${values.price}&description=${values.product_description}`
-		);
-
-	if (values) {
-		alert("Product Added");
-	}
-
-	setTimeout(() => {
-		form.reset();
+	  setFormID(product.data.product_id);
+	  const url = `app.link?pid=${product.data.product_id}`;
+	  setURL(url);
+    if (values.email_receipt_to_self)
+    await axios.get(
+  `http://localhost:3002/api/sendgrid?email=${values.email}&name=${values.name}&address=${values.merchant_address}&price=${values.price}&description=${values.product_description}`
+  );
+  
+  if (values) {
+    alert("Product Added");
+  }
+  
+  setTimeout(() => {
+    form.reset();
 	}, 2000);
 	redirect(url);
 }
