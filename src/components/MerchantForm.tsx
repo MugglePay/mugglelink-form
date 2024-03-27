@@ -99,27 +99,32 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    //@ts-ignore
-    values.price = parseFloat(values.price);
-    //@ts-ignore
-    submitButton.current.disabled = true;
-    const product = await insertApi(values);
-    console.log(product);
+		console.log(values);
+		//@ts-ignore
+		values.price = parseFloat(values.price);
+		//@ts-ignore
+		submitButton.current.disabled = true;
+		const product = await insertApi(values);
+		console.log(product);
 
-    setFormID(product.data.product_id);
-    const url = `app.link?pid=${product.data.product_id}`;
-    setURL(url);
-    redirect(url);
+		setFormID(product.data.product_id);
+		const url = `app.link?pid=${product.data.product_id}`;
+		setURL(url);
 
-    if (values) {
-      alert("merchant Added");
-    }
+		if (values.email_receipt_to_self)
+			await axios.get(
+				`http://localhost:3002/api/sendgrid?email=${values.email}&name=${values.name}&address=${values.merchant_address}&price=${values.price}&description=${values.product_description}`
+			);
 
-    setTimeout(() => {
-      form.reset();
-    }, 2000);
-  }
+		if (values) {
+			alert("Product Added");
+		}
+
+		setTimeout(() => {
+			form.reset();
+		}, 2000);
+		redirect(url);
+	}
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-20 mx-4 md:mx-auto w-[95%] md:w-[80%] my-20 ">
@@ -539,6 +544,55 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               )}
             />
 
+<div className="flex flex-col">
+              <FormField
+                control={form.control}
+                name="enable_peer_to_peer"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <h2 className="text-lg font-semibold">Step 9</h2>
+                      <p className="text-sm font-normal text-gray-400">
+                        peer to peer mode
+                      </p>
+                    </FormLabel>
+                    <div className="flex  items-center gap-6 mt-4">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <Label
+                        className="text-gray-600 leading-5 text-sm"
+                        htmlFor="escrow"
+                      >
+                        {" "}
+                        Enable peer to peer mode
+                      </Label>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {form.watch("enable_peer_to_peer") && (
+                <div className="mt-4"> {/* Add margin-top here */}
+                  <FormField
+                    control={form.control}
+                    name="merchant_address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Merchant Address</FormLabel>
+                        <Input type="text" {...field} placeholder="Enter Merchant Address" />
+                        <FormMessage />
+                        <FormDescription>The payment will directly send to your account. Please make sure you have control of the address</FormDescription>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+            </div>
+
             <FormField
               control={form.control}
               name="email"
@@ -581,13 +635,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
               )}
             />
 
-            <div>
-              <h2 className="text-lg font-semibold">Custom Fields</h2>
-              <p className="text-sm font-normal text-gray-400 mb-2">
-                This section allows you to create custom fields for your form and collect information from there.
-              </p>
-              <CustomFieldForm form={form}  />
-            </div>
+            
 
             <Button ref={submitButton} type="submit">
               Submit
