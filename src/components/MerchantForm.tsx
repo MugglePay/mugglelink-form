@@ -53,7 +53,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Product Description is required" }),
     quantity_max: z.string().min(1, { message: "Quantity is required" }),
-		quantity_min: z.string().min(1, { message: "Quantity is required" }),
+    quantity_min: z.string().min(1, { message: "Quantity is required" }),
 		enable_peer_to_peer: z.optional(z.boolean()),
 		merchant_address: z.string().optional(),
 		custom_fields: z.array(
@@ -113,19 +113,19 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
 	  const url = `app.link?pid=${product.data.product_id}`;
 	  setURL(url);
     if (values.email_receipt_to_self)
-			fetch(
-				`/api/sendgrid?email=${values.email}&name=${values.name}&address=${values.merchant_address}&price=${values.price}&description=${values.product_description}`
-			);
-
-		if (values) {
-			alert("Product Added");
-		}
-
-		setTimeout(() => {
-			form.reset();
-		}, 2000);
-		redirect(url);
-	}
+    fetch(
+  `/api/sendgrid?email=${values.email}&name=${values.name}&address=${values.merchant_address}&price=${values.price}&description=${values.product_description}`
+  );
+  
+  if (values) {
+    alert("Product Added");
+  }
+  
+  setTimeout(() => {
+    form.reset();
+  }, 2000);
+  redirect(url);
+}
 
   return (
     <div className="flex flex-col sm:flex-row justify-between gap2 md:gap-20 mx-4 md:mx-auto w-[95%] md:w-[80%] my-20 ">
