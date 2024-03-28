@@ -16,6 +16,7 @@ import prisma from "@/db";
 import MerchantForm from "@/components/MerchantForm";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { apiPrefix } from "@/lib/utils";
 
 const AnimatedText = dynamic(()=>import("@/components/AnimatedText"), {ssr: false})
 interface dataType {
@@ -102,7 +103,7 @@ jsonData.custom_fields.push(
 )
 }
   // Default options are marked with *
-  const response = await fetch('http://127.0.0.1:3001/api/products', {
+  const response = await fetch(`${apiPrefix}/products`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

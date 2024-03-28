@@ -12,7 +12,7 @@ export async function GET(req) {
 	try {
 		await sendEmail(
 			email,
-			"Product Added Successfuly",
+			`Product ${name} has been Added Successfuly`,
 			`<!DOCTYPE html>
 			<html lang="en">
 				<head>
@@ -21,7 +21,8 @@ export async function GET(req) {
 					<title>Invoice Email</title>
 				</head>
 				<body>
-					<h1 textAlign="center">Product Added</h1>
+				<h1 style="padding: 20px; background-color: #f1f1f1">Product Added</h1>
+		  <h2 style="margin-top: 20px;">Product Information:</h2>
 					<p>Product Name: ${name}</p>
 					<p>Product Description: ${description}</p>
 					<p>Wallet Address: ${address}</p>
