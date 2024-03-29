@@ -1,19 +1,14 @@
-import { NextResponse } from "next/server";
-import { sendEmail } from "../../../lib/sendgrid";
+import { NextResponse } from 'next/server';
+import { sendEmail } from '../../../lib/sendgrid';
 
-export async function GET(req) {
-	const { searchParams } = new URL(req.url);
-	const email = searchParams.get("email");
-	const name = searchParams.get("name");
-	const description = searchParams.get("description");
-	const address = searchParams.get("address");
-	const price = searchParams.get("price");
+export async function POST(req) {
+  const { email, name, description, address, price } = await req.json();
 
-	try {
-		await sendEmail(
-			email,
-			`Product ${name} has been Added Successfuly`,
-			`<!DOCTYPE html>
+  try {
+    await sendEmail(
+      email,
+      `Product ${name} has been Added Successfuly`,
+      `<!DOCTYPE html>
 			<html lang="en">
 				<head>
 					<meta charset="UTF-8" />
@@ -29,11 +24,11 @@ export async function GET(req) {
 					<p>Price: ${price}</p>
 				</body>
 			</html>					
-		`
-		);
-		return NextResponse.json({ message: "Email sent successfully" });
-	} catch (error) {
-		console.error(error);
-		return NextResponse.json({ message: "Internal Server Error" });
-	}
+		`,
+    );
+    return NextResponse.json({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'Internal Server Error' });
+  }
 }
