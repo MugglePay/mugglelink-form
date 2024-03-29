@@ -8,7 +8,7 @@ export default function CopyComponent({ id }: { id: string | null }) {
 
   useEffect(() => {
     // Generate URL when component mounts or when `id` changes
-    const url = id ? `https://pay.muggle.link/?pid=${id}` : null;
+    const url = id ? `http://127.0.0.1:3000/?pid=${id}` : null;
     setGeneratedUrl(url);
     if (url) {
       window.location.href = url; // Redirect to the generated URL

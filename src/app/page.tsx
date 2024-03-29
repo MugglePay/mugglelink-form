@@ -16,7 +16,7 @@ import prisma from "@/db";
 import MerchantForm from "@/components/MerchantForm";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { CustomField } from "@/components/CustomFieldForm";
+import { apiPrefix } from "@/lib/utils";
 
 const AnimatedText = dynamic(()=>import("@/components/AnimatedText"), {ssr: false})
 interface dataType {
@@ -39,7 +39,6 @@ interface dataType {
   product_image_url : string
   quantity_min: string,
   quantity_max: string,
-  custom_fields: CustomField[]
 }
 
 async function insertMerchant(values: dataType) {
@@ -91,7 +90,6 @@ async function postData(data : dataType) {
         "min": parseInt(data.quantity_min), "max": parseInt(data.quantity_max)  // Keeping original values
       }
     },
-  "custom_fields": data.custom_fields || []
 };
 
 if(data.require_phone_no){
@@ -105,7 +103,7 @@ jsonData.custom_fields.push(
 )
 }
   // Default options are marked with *
-  const response = await fetch('https://api.muggle.link/api/products', {
+  const response = await fetch(`${apiPrefix}/products`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
