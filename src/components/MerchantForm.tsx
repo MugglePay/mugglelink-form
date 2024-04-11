@@ -47,6 +47,7 @@ const formSchema = z.object({
   require_full_name: z.optional(z.boolean()),
   require_email: z.optional(z.boolean()),
   require_phone_no: z.optional(z.boolean()),
+  require_shipping_address: z.optional(z.boolean()),
   email_receipt_to_buyer: z.optional(z.boolean()),
   email_receipt_to_self: z.optional(z.boolean()),
   color_pallet: z.optional(z.string()),
@@ -353,6 +354,32 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                   </FormItem>
                 )}
               />
+
+<FormField
+                control={form.control}
+                name="require_shipping_address"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex  items-center gap-6 mt-4">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <Label
+                        className="text-gray-600 leading-5 text-sm"
+                        htmlFor="escrow"
+                      >
+                        {" "}
+                        Require Shipping address
+                      </Label>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
             </div>
 
             <div className="flex flex-col">

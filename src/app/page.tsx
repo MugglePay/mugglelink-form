@@ -32,6 +32,7 @@ interface dataType {
   require_full_name: boolean;
   require_email: boolean;
   require_phone_no: boolean;
+  require_shipping_address: boolean;
   email_receipt_to_buyer: boolean;
   email_receipt_to_self: boolean;
   color_pallet : string,
@@ -84,7 +85,7 @@ async function postData(data : dataType) {
     "fields": {
       "requires_name": data.require_full_name,
       "requires_email": data.require_email,
-      "requires_shipping_address": false, // No equivalent in dataType, keeping false
+      "requires_shipping_address": data.require_shipping_address, // No equivalent in dataType, keeping false
       "requires_billing_address": false, // No equivalent in dataType, keeping false
       "requires_country": false, // No equivalent in dataType, keeping false
       "requires_quantity": {
