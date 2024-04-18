@@ -145,7 +145,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                   <FormLabel>
                     <h2 className="text-lg font-semibold">Step 1</h2>
                     <p className="text-sm text-gray-400 font-normal">
-                      Add merchant or company name
+                      Add merchant or company name !vercel check!
                     </p>
                   </FormLabel>
                   <Input placeholder="" type="text" {...field} />
