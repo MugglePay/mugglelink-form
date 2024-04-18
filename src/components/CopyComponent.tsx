@@ -20,7 +20,7 @@ export default function CopyComponent({ id }: { id: string | null }) {
       <div className="relative w-full">
         <Input
           className="rounded md:w-60"
-          placeholder="MuggleLink"
+          placeholder="MugglePay Links"
           readOnly
           type="url"
           value={generatedUrl || "Please create your form."}

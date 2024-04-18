@@ -134,7 +134,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                   fontWeight: "bold",
                 }}
               >
-                Create your MuggleLink
+                Create your MugglePay Link
               </span>
             </div>
             <FormField
@@ -594,7 +594,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
             </Button>
             <div className="flex flex-col sm:flex-row items-center mt-4 gap-4">
                 <div className="basis-1/2">
-                  <h1 className="my-5 font-semibold">MuggleLink</h1>
+                  <h1 className="my-5 font-semibold">MugglePay Link</h1>
                   <CopyComponent id={formId} />
                 </div>
                 <div className="basis-1/2">

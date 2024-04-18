@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MuggleLink is a P2P payment protocol",
+  title: "MugglePay Links",
   description: "Accept crypto on telegram and universal Social Platform",
 };
 

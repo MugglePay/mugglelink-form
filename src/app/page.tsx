@@ -127,7 +127,7 @@ export default function Home() {
     <>
       <div className="flex flex-col sm:flex-row justify-between items-center gap-2 md:gap-10 mx-4 md:mx-auto w-[95%] lg:w-[70%] my-32 sm:my-56 tracking-wide" suppressHydrationWarning>
         <div className="flex flex-col items-center justify-center sm:items-start sm:justify-start w-full text-white">
-          <h1 className="text-4xl md:text-6xl mb-10 font-bold">MuggleLink</h1>
+          <h1 className="text-4xl md:text-6xl mb-10 font-bold">MugglePay Links</h1>
           <div className="flex justify-center items-center gap-2 flex-wrap sm:flex-row">
             <h3 className="text-xl md:text-2xl text-align: center">Accept crypto on</h3>
             <AnimatedText/>
