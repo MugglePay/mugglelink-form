@@ -134,7 +134,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                   fontWeight: "bold",
                 }}
               >
-                Create your MuggleLink
+                Create your MuggleLink from here!  
               </span>
             </div>
             <FormField
