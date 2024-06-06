@@ -1,0 +1,19 @@
+{
+  "extends": ["next", "next/core-web-vitals", "plugin:tailwindcss/recommended"],
+  "rules": {
+    // General ESLint Rules
+    "no-console": "warn", // Avoids using console.log, console.error, etc.
+    "no-unused-vars": "warn", // Warns about unused variables
+    "no-undef": "error", // Disallows usage of undeclared variables
+    "no-extra-semi": "error", // Disallows unnecessary semicolons
+    "semi": ["error", "never"], // Requires or disallows semicolons instead of ASI
+    "quotes": ["error", "single"], // Enforces single quotes
+    "no-multiple-empty-lines": ["error", { "max": 1 }], // Disallows multiple empty lines
+    "no-var": "error", // Disallows usage of var keyword
+    "prefer-const": "error", // Requires usage of const declaration when variable is not reassigned
+
+    // React Rules
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off"
+  }
+}
