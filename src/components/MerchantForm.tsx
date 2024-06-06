@@ -369,7 +369,7 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                 )}
               />
 
-<FormField
+              <FormField
                 control={form.control}
                 name="require_shipping_address"
                 render={({ field }) => (
@@ -385,11 +385,11 @@ const MerchantForm = ({ insertApi }: { insertApi: any }) => {
                         className="text-gray-600 leading-5 text-sm"
                         htmlFor="escrow"
                       >
-                        {" "}
+                        &nbsp;
                         Require Shipping address
                       </Label>
                     </div>
-                    <FormMessage />
+                    <FormMessage/>
                   </FormItem>
                 )}
               />
