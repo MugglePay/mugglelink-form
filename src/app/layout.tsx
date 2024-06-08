@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { Toaster } from '@/components/ui/toaster'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
@@ -19,7 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, 'gradient-background')}>
-        {children}
+        <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   )

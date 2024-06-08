@@ -7,7 +7,7 @@ import {
   FieldPath,
   FieldValues,
   FormProvider,
-  useFormContext
+  useFormContext,
 } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
@@ -30,8 +30,8 @@ const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  ...props
-}: ControllerProps<TFieldValues, TName>) => {
+    ...props
+  }: ControllerProps<TFieldValues, TName>) => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -58,7 +58,7 @@ const useFormField = () => {
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
-    ...fieldState
+    ...fieldState,
   }
 }
 
@@ -78,7 +78,7 @@ const FormItem = React.forwardRef<
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn('space-y-2', className)} {...props} />
+      <div ref={ref} className={cn('space-y-1', className)} {...props} />
     </FormItemContext.Provider>
   )
 })
@@ -86,14 +86,14 @@ FormItem.displayName = 'FormItem'
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & { isRequired?: boolean }
+>(({ className, isRequired, ...props }, ref) => {
   const { error, formItemId } = useFormField()
 
   return (
     <Label
       ref={ref}
-      className={cn(error && 'text-destructive', className)}
+      className={cn(error && 'text-destructive', isRequired && 'required-field', className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -133,7 +133,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn('text-sm text-muted-foreground', className)}
+      className={cn('text-xs text-gray-400', className)}
       {...props}
     />
   )
@@ -172,5 +172,5 @@ export {
   FormControl,
   FormDescription,
   FormMessage,
-  FormField
+  FormField,
 }

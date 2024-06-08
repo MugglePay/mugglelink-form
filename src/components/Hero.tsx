@@ -19,7 +19,7 @@ const AnimatedText = dynamic(() => import('@/components/AnimatedText'), {
 const Hero = () => {
   return (
     <div
-      className="mx-4 my-32 flex w-[95%] flex-col items-center justify-between gap-2 tracking-wide sm:my-56 sm:flex-row md:mx-auto md:gap-10 lg:w-[70%]"
+      className="my-32 flex w-full flex-col items-center justify-between gap-2 tracking-wide sm:my-56 sm:flex-row md:mx-auto md:gap-10"
       suppressHydrationWarning
     >
       <div className="flex w-full flex-col items-center justify-center text-white sm:items-start sm:justify-start">
@@ -30,7 +30,7 @@ const Hero = () => {
           <h3 className="text-center text-xl md:text-2xl">
             Accept crypto on
           </h3>
-          <AnimatedText/>
+          <AnimatedText />
         </div>
         <ul className="my-8 ml-4 list-inside list-disc text-base md:ml-10 md:text-xl">
           <li> Accept crypto on telegram and universal Social Platform.</li>
@@ -75,12 +75,12 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="mt-6 flex w-full items-center justify-center px-4 sm:mt-0 sm:px-0">
+      <div className="flex w-full items-center justify-center md:mt-6 md:px-4">
         <Card className="w-full rounded-3xl md:w-[350px]">
           <CardHeader>
             <CardTitle className="flex justify-between">
               <h1>AI Future Inc.</h1>
-              <FerrisWheel/>
+              <FerrisWheel />
             </CardTitle>
             <CardDescription>
               <h1 className="mb-4 text-xl font-semibold text-[#8c52ff]">
