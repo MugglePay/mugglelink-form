@@ -91,7 +91,7 @@ const MerchantForm = () => {
   const uploadImage = async (file: File) => {
     // Get Presigned URL
     const response = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + '/api/upload',
+      '/api/upload',
       {
         method: 'POST',
         headers: {
@@ -214,7 +214,7 @@ const MerchantForm = () => {
         setLoading(false)
         form.reset()
 
-        window.location.href = `${process.env.NEXT_PUBLIC_INVOICE_URL}?pid=${val.data.product_id}`
+        window.location.href = `${process.env.NEXT_PUBLIC_INVOICE_URL}/?pid=${val.data.product_id}`
       }
     } catch (error) {
       console.log(error)

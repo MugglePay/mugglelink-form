@@ -8,7 +8,7 @@ export default function CopyComponent({ id }: { id: string | null }) {
 
   useEffect(() => {
     // Generate URL when component mounts or when `id` changes
-    const url = id ? `${process.env.NEXT_PUBLIC_INVOICE_URL}?pid=${id}` : null
+    const url = id ? `${process.env.NEXT_PUBLIC_INVOICE_URL}/?pid=${id}` : null
     setGeneratedUrl(url)
     if (url) {
       window.location.href = url // Redirect to the generated URL
