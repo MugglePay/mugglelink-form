@@ -121,9 +121,6 @@ const MerchantForm = () => {
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
         redirect: 'follow',
         referrerPolicy: 'no-referrer'
       })
