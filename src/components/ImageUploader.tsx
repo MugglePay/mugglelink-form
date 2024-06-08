@@ -1,5 +1,6 @@
 'use client'
 
+import { useToast } from '@/hooks/use-toast'
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ImageIcon } from 'lucide-react'
@@ -7,6 +8,7 @@ import { Input } from './ui/input'
 
 // eslint-disable-next-line no-unused-vars
 const ImageUploader = ({ onChange }: { onChange: (value: { file: File; preview: string }) => void }) => {
+  const { toast } = useToast()
   const inputFile = useRef<HTMLInputElement>(null)
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null)
   const [imageFile, setImageFile] = useState<File>()
@@ -18,6 +20,17 @@ const ImageUploader = ({ onChange }: { onChange: (value: { file: File; preview: 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]
     if (selectedFile) {
+      // Do Validation
+
+      if (!selectedFile.type.match(/image.*/)) {
+        return toast({ description: 'Only image files are allowed. Please select an image.', variant: 'destructive' })
+      }
+
+      const maxFileSize = 2 * 1024 * 1024 // 2MB in bytes
+      if (selectedFile.size > maxFileSize) {
+        return toast({ description: 'File size exceeds 2MB. Please upload a smaller file.', variant: 'destructive' })
+      }
+
       const reader = new FileReader()
       reader.onload = (e) => setPreviewImageUrl(e?.target?.result as string)
       reader.readAsDataURL(selectedFile)
@@ -61,6 +74,7 @@ const ImageUploader = ({ onChange }: { onChange: (value: { file: File; preview: 
           type="file"
           id="picture"
           style={{ display: 'none' }}
+          accept="image/*"
           onChange={handleFileChange}
         />
       </div>

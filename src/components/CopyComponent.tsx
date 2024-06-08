@@ -1,5 +1,3 @@
-import { Copy } from 'lucide-react'
-import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { useState, useEffect } from 'react' 
 

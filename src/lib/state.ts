@@ -1,6 +1,7 @@
 import { Atom, atom, Getter, useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { atomWithReset, atomWithStorage, useResetAtom } from 'jotai/utils'
 
+// eslint-disable-next-line no-unused-vars
 export function atomicSelector<Value>(read: (get: Getter) => Value): Atom<Value> {
   return atom<Value>(read)
 }

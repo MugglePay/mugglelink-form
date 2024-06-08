@@ -3,6 +3,7 @@
 import AdvancedForm from '@/components/MerchantForm/AdvancedForm'
 import DefaultForm from '@/components/MerchantForm/DefaultForm'
 import { Button, LoadingButton } from '@/components/ui/button'
+import { useToast } from '@/hooks/use-toast'
 import { useAtomicSetter } from '@/lib/state'
 import { contrast } from '@/lib/utils'
 import { merchantAtom } from '@/states/merchant.state'
@@ -56,6 +57,7 @@ export type MerchantSchema = z.infer<typeof schema>;
 
 // eslint-disable-next-line no-unused-vars
 const MerchantForm = () => {
+  const { toast } = useToast()
   const setMerchant = useAtomicSetter(merchantAtom)
   const [loading, setLoading] = useState<boolean>(false)
   const [showAdvancedForm, setShowAdvancedForm] = useState<boolean>(false)
@@ -115,7 +117,15 @@ const MerchantForm = () => {
 
       const uploadResponse = await fetch(url, {
         method: 'POST',
-        body: formData
+        body: formData,
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer'
       })
 
       if (uploadResponse.ok) {
@@ -216,8 +226,8 @@ const MerchantForm = () => {
 
         window.location.href = `${process.env.NEXT_PUBLIC_INVOICE_URL}/?pid=${val.data.product_id}`
       }
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      toast({ description: error.message, variant: 'destructive' })
       setLoading(false)
     }
   }

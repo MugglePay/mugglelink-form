@@ -13,7 +13,6 @@ import {
 import { FerrisWheel } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Label } from './ui/label'
-import { Input } from './ui/input'
 
 const PreviewCard = () => {
   const merchant = useAtomicValue(merchantAtom)
