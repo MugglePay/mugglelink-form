@@ -1,9 +1,10 @@
 'use client'
+
+{/* eslint-disable @next/next/no-img-element */}
 import { Separator } from '@/components/ui/separator'
 import { useAtomicValue } from '@/lib/state'
 import { contrast } from '@/lib/utils'
 import { merchantAtom } from '@/states/merchant.state'
-import Image from 'next/image'
 import React, { useMemo } from 'react'
 import {
   Card,
@@ -33,27 +34,27 @@ const PreviewCard = () => {
         <CardContent className="p-0">
           <div className="flex flex-col gap-4 rounded-t-3xl px-6 py-4" style={theme}>
             <div className="flex items-center gap-2">
-              {merchant?.company_image_url?.preview ? <Image
+              {merchant?.company_image_url?.preview ? <img
                 src={merchant?.company_image_url?.preview}
                 alt="Brand Logo"
-                width={100}
-                height={100}
+                width={30}
+                height="auto"
                 className="h-auto w-[30px] object-cover" // Reduce icon size by setting a fixed width/height
-              /> : <FerrisWheel />}
-              <h1 className="text-sm font-semibold leading-none tracking-tight">{merchant?.name || 'Brand name'}</h1>
+              /> : <div className="h-auto w-[30px]"><FerrisWheel /></div>}
+              <h1 className="break-all text-sm font-semibold leading-none tracking-tight">{merchant?.name || 'Brand name'}</h1>
             </div>
             <div className="mt-1 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold tracking-wider">
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="break-all text-sm font-semibold tracking-wider">
                   {merchant?.product || 'Product Name'}
                 </h3>
-                {merchant?.product_image_url?.preview ? <Image
+                {merchant?.product_image_url?.preview ? <img
                   src={merchant?.product_image_url?.preview}
                   alt="Product Logo"
-                  width={100}
-                  height={100}
+                  width={30}
+                  height="auto"
                   className="h-auto w-[30px] object-cover" // Reduce icon size by setting a fixed width/height
-                /> : <FerrisWheel />}
+                /> : <div className="h-auto w-[30px]"><FerrisWheel /></div>}
               </div>
 
               <div className="flex gap-2 text-xl font-semibold">
@@ -62,8 +63,8 @@ const PreviewCard = () => {
               </div>
 
               <div className="flex flex-col text-sm">
-                <div className="flex items-center justify-between">
-                  <span>{merchant?.product_description ? merchant?.product_description : (merchant?.product || 'Product Description')}</span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="break-all">{merchant?.product_description ? merchant?.product_description : (merchant?.product || 'Product Description')}</span>
                   <span>{price}</span>
                 </div>
                 <Separator className="my-2" />
