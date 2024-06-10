@@ -33,8 +33,8 @@ const advancedForm = z.object({
   /*email_receipt_to_buyer: z.optional(z.boolean()),
   email_receipt_to_self: z.optional(z.boolean()),*/
   color_pallet: z.optional(z.string()),
-  quantity_max: z.string().min(1, { message: 'Quantity is required' }),
-  quantity_min: z.string().min(1, { message: 'Quantity is required' }),
+  quantity_max: z.optional(z.string().min(1, { message: 'Quantity is required' })),
+  quantity_min: z.optional(z.string().min(1, { message: 'Quantity is required' })),
   custom_fields: z.array(
     z.object({
       field: z.string().min(1, { message: 'Field Key is required' }),
@@ -43,7 +43,7 @@ const advancedForm = z.object({
     })
   )
 }).refine((data) => {
-  return Number(data.quantity_max) >= Number(data.quantity_min)
+  return typeof data.quantity_max === 'undefined' ? true : Number(data.quantity_max) >= Number(data.quantity_min)
 }, {
   message: 'Quantity max must be higher than or equal to Quantity min',
   path: ['quantity_max']
@@ -81,8 +81,8 @@ const MerchantForm = () => {
       /*email_receipt_to_buyer: false,
       email_receipt_to_self: false,*/
       color_pallet: '#8c52ff',
-      quantity_min: '1',
-      quantity_max: '10000',
+      quantity_min: undefined,
+      quantity_max: undefined,
       custom_fields: []
     },
     resolver: zodResolver(schema)
@@ -178,15 +178,15 @@ const MerchantForm = () => {
           email: data.email || ''
         },
         fields: {
-          requires_name: require_data_collections?.includes('require_full_name'),
+          requires_name: showAdvancedForm ? require_data_collections?.includes('require_full_name') : true,
           requires_email: require_data_collections?.includes('require_email'),
           requires_shipping_address: require_data_collections?.includes('require_shipping_address'), // No equivalent in dataType, keeping false
           requires_billing_address: false, // No equivalent in dataType, keeping false
           requires_country: false, // No equivalent in dataType, keeping false
-          requires_quantity: {
-            min: parseInt(data.quantity_min),
-            max: parseInt(data.quantity_max) // Keeping original values
-          }
+          requires_quantity: showAdvancedForm ? {
+            min: parseInt(data.quantity_min || '1'),
+            max: parseInt(data.quantity_max || '10000') // Keeping original values
+          } : false
         },
         custom_fields: data.custom_fields || []
       }
@@ -249,14 +249,14 @@ const MerchantForm = () => {
 
         <Button variant="link" type="button" className="mt-2 flex items-center gap-1" size="sm"
                 onClick={() => {
-                  setShowAdvancedForm((old) => !old)
-
                   form.setValue('require_data_collections', [])
                   form.setValue('require_email_notifications', [])
                   form.setValue('color_pallet', '#8c52ff')
-                  form.setValue('quantity_min', '1')
-                  form.setValue('quantity_max', '10000')
+                  form.setValue('quantity_min', showAdvancedForm ? undefined : '1')
+                  form.setValue('quantity_max', showAdvancedForm ? undefined : '10000')
                   form.setValue('custom_fields', [])
+
+                  setShowAdvancedForm((old) => !old)
                 }}>
           {showAdvancedForm ? <ChevronUp /> : <ChevronDown />}
           {showAdvancedForm ? 'Hide' : 'Show'} Advance Form
