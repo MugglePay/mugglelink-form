@@ -129,7 +129,7 @@ const MerchantForm = () => {
         return fileUrl
       }
 
-      throw new Error('Image Upload Failed')
+      throw new Error('Failed to upload the image')
     } else {
       throw new Error('Failed to get pre-signed URL.')
     }
